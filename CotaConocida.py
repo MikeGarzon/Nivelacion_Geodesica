@@ -36,7 +36,7 @@ def main():
                 cota.append(float(input("Ingrese la cota conocida:  ")))
                 vpos = float(input("Ingrese V+ "))
                 alturaInstrumentalAcumulada = operacionAltura(cota[i], vpos)
-                D= float(input("Ingrese la distacia de el punto:  "))   #Distancia inicial del armado
+                D= float(input("Ingrese la distacia conocid0a:  "))   #Distancia inicial del armado
                 dVpos = float(input("Ingrese la distacia dV+: "))
                 distanciasAcumuladas.append(D-dVpos)
 
@@ -54,9 +54,9 @@ def main():
             #Puntos Intermedios
 
             for k in range(0, cantidadPM):
-                vneg = float(input("Ingrese V- para el punto intermedio "))
+                vneg = float(input("Ingrese Vi para el punto intermedio "))
                 cota.append(operacionCota(alturaInstrumentalAcumulada, vneg))
-                dvneg = float(input("Ingrese la distancia (dv-) para este punto visado del armado: "))
+                dvneg = float(input("Ingrese la distancia del vi para este punto visado del armado: "))
                 op = int(input("(1) Para un punto intermedio adelante del armado \n(0) Para un punto intermedio atras del armado: "))
                 if op == 1:
                     distanciasAcumuladas.append(D + dvneg)
@@ -92,22 +92,36 @@ def main():
             #Primera iteracion pide cota
             if i==0:
                 cota.append(float(input("Ingrese la cota conocida:  ")))
-                vpos = float(input("Ingrese V+ "))
+
+            vpos = float(input("Ingrese V+ "))
 
             #Siguientes iteraciones toman la cota anterior
             if i >0:
                 print("Cota ", cota[-1])
-
             cantidadPM = int(input("¿Cuantos puntos intermedios tiene la armada?: "))
             for k in range(0, cantidadPM): #Iteracion puntos intermedios
-                vneg = float(input("Ingrese V- para el punto intermedio "))
+                vneg = float(input("Ingrese Vi para el punto  "))
                 sb = vpos - vneg
-                cota.append(cota[-1] + sb)
+                if i > 0:
+                    if c == False:
+                        cotas = cota[-1]
+                        print("Cota:",cotas)
+                        cota.append(cotas + sb)
+                        c = True
+                    else:
+                        print("Cota:", cotas)
+                        cota.append(cotas + sb)
+                else:
+                    cota.append(cota[0] + sb)
 
+            c = False
             print("***Punto visualizado final***")
-            vneg = float(input("Ingrese V- para el punto intermedio "))
+            vneg = float(input("Ingrese V- para el punto  "))
             sb = vpos - vneg
-            cota.append(cota[-1] + sb)
+            if i > 0:
+                cota.append(cotas + sb)
+            else:
+                cota.append(cota[0] + sb)
 
             i+=1
 
